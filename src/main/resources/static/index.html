@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f6f0">
+  <meta name="description" content="Find a nearby food truck, explore its menu, and order your favorites.">
+  <title>Roam — good food finds you</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Roam home">
+        <span class="brand-mark">r</span>
+        <span>roam<span class="brand-period">.</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="discover">Discover</button>
+        <button class="nav-link" data-view="seller">For sellers</button>
+      </nav>
+      <button class="location-pill" id="use-location" type="button">
+        <span aria-hidden="true">⌖</span>
+        <span id="location-label">Austin, TX</span>
+        <span class="chevron" aria-hidden="true">⌄</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> GOOD FOOD, AROUND THE CORNER</p>
+          <h1>Your next great<br>meal is <em>in motion.</em></h1>
+          <p class="hero-description">Meet the local food trucks bringing something delicious to your neighborhood.</p>
+          <div class="search-row">
+            <label class="search-field">
+              <span aria-hidden="true">⌖</span>
+              <input id="latitude" type="number" step="any" aria-label="Your latitude" value="30.2672">
+              <span class="coordinate-divider">/</span>
+              <input id="longitude" type="number" step="any" aria-label="Your longitude" value="-97.7431">
+            </label>
+            <button id="find-trucks" class="button button-dark" type="button">Find trucks <span aria-hidden="true">↗</span></button>
+          </div>
+          <p class="search-hint">Enter coordinates or use your current location</p>
+        </div>
+        <div class="hero-art" aria-label="Illustration of a food truck">
+          <div class="sun-shape"></div>
+          <div class="art-leaf leaf-one"></div>
+          <div class="art-leaf leaf-two"></div>
+          <div class="art-flower">✳</div>
+          <div class="truck-illustration">
+            <div class="truck-awning"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="truck-window"><span class="window-glint"></span><span class="window-plant">✦</span></div>
+            <div class="truck-body">
+              <div class="truck-wordmark">GOOD<br>MOOD</div>
+              <div class="truck-serving">SERVED HERE<br><span>✳</span></div>
+            </div>
+            <div class="truck-bumper"></div>
+            <div class="truck-wheel wheel-left"><i></i></div>
+            <div class="truck-wheel wheel-right"><i></i></div>
+          </div>
+          <div class="art-caption"><span>✦</span> LOCALLY LOVED, ALWAYS MOVING</div>
+        </div>
+      </section>
+
+      <section class="discover-section" id="discover-view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE NEIGHBORHOOD LINEUP</p>
+            <h2>What's cooking <span>near you</span></h2>
+          </div>
+          <div class="sort-note"><span class="live-dot"></span> Sorted by distance</div>
+        </div>
+        <div class="content-grid">
+          <section class="trucks-column" aria-label="Nearby food trucks">
+            <div class="truck-list" id="truck-list"><div class="loading-card">Finding your neighborhood's good stuff…</div></div>
+          </section>
+          <aside class="order-panel" aria-label="Your order">
+            <div class="order-panel-head">
+              <div>
+                <p class="eyebrow">YOUR PICKUP</p>
+                <h3>Your order <span class="cart-count" id="cart-count">0</span></h3>
+              </div>
+              <span class="bag-icon" aria-hidden="true">⌑</span>
+            </div>
+            <div id="cart-content" class="cart-content">
+              <div class="empty-cart">
+                <span class="empty-cart-icon" aria-hidden="true">✳</span>
+                <strong>Good things start here.</strong>
+                <p>Choose a truck, then add a bite or two.</p>
+              </div>
+            </div>
+            <div class="cart-footer" id="cart-footer" hidden>
+              <div class="cart-total"><span>Subtotal</span><strong id="cart-total">$0.00</strong></div>
+              <label class="customer-name-label" for="customer-name">Name for pickup</label>
+              <input id="customer-name" class="text-input" type="text" maxlength="80" placeholder="Your name">
+              <button id="place-order" class="button button-dark button-wide" type="button">Place my order <span aria-hidden="true">→</span></button>
+              <p class="pickup-note">Pay at pickup · Your truck will confirm when it's ready</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="seller-section" id="seller-view" hidden>
+        <div class="section-heading seller-heading">
+          <div>
+            <p class="eyebrow">YOUR TRUCK, YOUR TERMS</p>
+            <h2>Make the menu <span>move.</span></h2>
+            <p class="section-subtitle">Update your location, keep your menu fresh, and see what's coming in.</p>
+          </div>
+          <span class="seller-stamp">SELLER<br>STUDIO <b>✳</b></span>
+        </div>
+        <div class="seller-layout">
+          <div class="seller-main">
+            <section class="seller-card">
+              <div class="seller-card-heading"><span class="step-number">01</span><div><p class="eyebrow">SET YOUR SPOT</p><h3>Where's the truck?</h3></div></div>
+              <form id="location-form" class="location-form">
+                <label>Food truck<select id="seller-truck" class="text-input"></select></label>
+                <label>Address or landmark<input id="seller-address" class="text-input" required maxlength="160" placeholder="e.g. 1200 South Congress Ave, Austin"></label>
+                <div class="coordinate-fields">
+                  <label>Latitude<input id="seller-latitude" class="text-input" type="number" step="any" min="-90" max="90" required></label>
+                  <label>Longitude<input id="seller-longitude" class="text-input" type="number" step="any" min="-180" max="180" required></label>
+                </div>
+                <button class="button button-dark" type="submit">Update location <span aria-hidden="true">↗</span></button>
+              </form>
+            </section>
+            <section class="seller-card">
+              <div class="seller-card-heading"><span class="step-number">02</span><div><p class="eyebrow">SOMETHING DELICIOUS</p><h3>Manage your menu</h3></div></div>
+              <form id="menu-form" class="menu-form">
+                <label>Food item<input id="item-name" class="text-input" required maxlength="80" placeholder="e.g. Crispy chicken sandwich"></label>
+                <label>Description<input id="item-description" class="text-input" maxlength="240" placeholder="A few words to make it irresistible"></label>
+                <div class="menu-form-row">
+                  <label>Price ($)<input id="item-price" class="text-input" type="number" min="0.01" max="9999.99" step="0.01" required placeholder="12.50"></label>
+                  <label>Emoji<input id="item-emoji" class="text-input emoji-input" maxlength="8" placeholder="🍔"></label>
+                </div>
+                <button class="button button-outline" type="submit"><span aria-hidden="true">＋</span> Add to menu</button>
+              </form>
+              <div id="seller-menu" class="seller-menu"></div>
+            </section>
+          </div>
+          <section class="seller-card incoming-card">
+            <div class="orders-heading">
+              <div class="seller-card-heading"><span class="step-number">03</span><div><p class="eyebrow">FRESH OFF THE PRESS</p><h3>Incoming orders</h3></div></div>
+              <button id="refresh-orders" class="icon-button" type="button" aria-label="Refresh orders">↻</button>
+            </div>
+            <div id="order-list" class="order-list"><div class="empty-orders">Your next order could be just around the corner.</div></div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><a class="brand footer-brand" href="#"><span class="brand-mark">r</span><span>roam<span class="brand-period">.</span></span></a><span>A little closer to something delicious.</span><span>Made for your neighborhood <b>✳</b></span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
